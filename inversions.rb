@@ -19,6 +19,7 @@ def inversions2(list=nil,length=list.size)
 	mid = length / 2
 	left,right = [], []
 	list.each_with_index do |value,index|
+		value = value.to_i
 		index < mid ? left << value : right << value
 	end
 	a,x = inversions2(left)
@@ -45,7 +46,7 @@ def splitInv(a,b,length=a.size+b.size)
 end
 
 if __FILE__ == $PROGRAM_NAME
-	list = [1,3,5,2,4,6,9,8,7,0,-1]
-	p inversions(list)
-	p inversions2(list)[1]
+	file = File.open(ARGV[0])
+	lines = file.read.split("\n")
+	p inversions2(lines)[1]
 end

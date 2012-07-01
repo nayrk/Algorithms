@@ -12,11 +12,12 @@ def bucket_sort(list,width)
 		low = list[i] if list[i] < low
 	end
 
-	buckets = Array.new(width){[]}
+	buckets = Array.new(high - low + 1){[]}
+
+	p buckets.size
 
 	for i in list
-		index = (high - i + low)/width
-		p index
+		index = i - low
 		buckets[index] << i
 	end
 

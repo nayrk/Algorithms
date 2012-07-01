@@ -1,32 +1,24 @@
 # Merge Sort
 def merge_sort(list)
-	return list if list.size == 1
+	return list if list.size <= 1
 	left, right = [], []
 	middle = list.size / 2
-	list.each_with_index do |value,index|
-		index < middle ? left << value : right << value
-	end
+	
+	left = list[0,middle]
+	right = list[middle..-1]
+
 	left = merge_sort(left)
 	right = merge_sort(right)
+
 	merge(left,right)
 end
 
 def merge(left,right)
 	result = []
-	while left.size > 0 or right.size > 0
-		if left.size > 0 and right.size > 0 
-			if left[0] <= right[0]
-				result << left.shift	
-			else
-				result << right.shift	
-			end
-		elsif left.size > 0
-			result << left.shift
-		elsif right.size > 0
-			result << right.shift
-		end
+	until left.empty? or right.empty?
+		result << (left[0] < right[0] ? left.shift : right.shift)
 	end
-	result
+	result + left + right
 end
 
 if __FILE__ == $PROGRAM_NAME

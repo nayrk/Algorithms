@@ -1,6 +1,8 @@
 # Counting Sort
 def countingSort(array)
-	y = array.inject(Array.new(array.size+1){0}) do |acc,i|
+	max = array.max
+
+	y = array.inject(Array.new(max+1){0}) do |acc,i|
 		acc[i] += 1
 		acc
 	end
@@ -29,7 +31,7 @@ if $PROGRAM_NAME == __FILE__
 	array = []
 	n = 5 if n < 1
 	for i in 0...n
-		array << 1 + rand(n)
+		array << 1 + rand(1000)
 	end
 
 	puts "Non-Sorted Array : \n#{array}"

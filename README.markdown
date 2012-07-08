@@ -10,3 +10,5 @@
 * Merge Sort
     * Inversion counting with Merge Sort
 	* IntegerArray.txt input file
+* Karger's Min Cut
+ 	* Adjaceny List

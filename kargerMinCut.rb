@@ -2,7 +2,7 @@
 # Wikipedia algorithm
 # http://en.wikipedia.org/wiki/Karger%27s_algorithm
 
-require 'thread'
+require 'parallel'
 require 'benchmark'
 
 # Deep Copy
@@ -55,40 +55,28 @@ if __FILE__ == $PROGRAM_NAME
 	end
 
 	# Run the many times to get the min cut
-	n = 30
+	n = 50
 	size = []	
 	size2 = []	
-	threads = []
-	queue = Queue.new
-	queue = (0...n).map { |i| i }
+	a = (0..n).to_a
 
 	Benchmark.bm(15) do |b|
-
-		# Queue Thread Implementation from:
-		# http://stackoverflow.com/questions/6558828/thread-and-queue
-		b.report("Threaded Queue: " ) { 
-			threads << Thread.new do 
-				4.times do
-					until queue.empty?
-						g = deep_copy(graph)
-						work_unit = queue.pop(1) rescue nil
-						if work_unit
-							size << karger(g)
-						end
-					end
-				end
-			end
-
-			threads.each { |t| t.join }
-		}
 		
+		# Parallel/Thread
+		b.report("Thread: ") do
+			Parallel.each(a, :in_threads => Parallel.processor_count) do |val|
+				g = deep_copy(graph)
+				size << karger(g)
+			end
+		end
 
-		b.report("Non-threaded : ") {
+		# Normal
+		b.report("Normal: ") do
 			(0...n).each do |i|
 				g = deep_copy(graph)
 				size2 << karger(g)
 			end
-		}
+		end
 	end
 
 	# Print min cut

@@ -19,19 +19,46 @@ end
 # i = node
 def dfs(graph, i)
 	# Mark explored
-	$explored << i
-	$leader[i] = $source
+	#$explored << i
+	#$leader[i] = $source
 
-	unless graph[i].nil?
-		graph[i].each do |node|
-			unless $explored.include? node
-				dfs(graph,node)
+	# Iterative DFS
+	stack = [i]
+	until stack.empty?
+		i = stack.last
+		$leader[i] = $source
+		if $explored.include? i
+			$time += 1
+			$finishing_time[i] = $time
+			stack.pop
+		else
+			neighbors = []
+			$explored << i
+			if graph[i]
+				graph[i].each do |l|
+					neighbors << l unless $explored.include? l
+				end
+			end
+			if neighbors.empty?
+				$time += 1
+				$finishing_time[i] = $time
+				stack.pop
+			else
+				stack.concat(neighbors)
 			end
 		end
-
-		$time += 1
-		$finishing_time[i] = $time
 	end
+
+	#unless graph[i].nil?
+	#	graph[i].each do |node|
+	#		unless $explored.include? node
+	#			dfs(graph,node)
+	#		end
+	#	end
+
+	#	$time += 1
+	#	$finishing_time[i] = $time
+	#end
 end
 
 def dfs_loop(graph)
@@ -51,7 +78,7 @@ if __FILE__ == $PROGRAM_NAME
 	# Transposed Graph
 	graph_t = {}
 
-	File.open('SCC2.txt').read.split("\n").each do |line|
+	File.open('SCC3.txt').read.split("\n").each do |line|
 		from, to = line.split(" ")
 		from = from.to_i
 		to = to.to_i

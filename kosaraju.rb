@@ -78,7 +78,7 @@ if __FILE__ == $PROGRAM_NAME
 	# Transposed Graph
 	graph_t = {}
 
-	File.open('SCC3.txt').read.split("\n").each do |line|
+	File.open('SCC.txt').read.split("\n").each do |line|
 		from, to = line.split(" ")
 		from = from.to_i
 		to = to.to_i

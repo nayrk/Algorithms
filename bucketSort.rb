@@ -7,11 +7,13 @@ def bucket_sort(list,width)
 	high = list[0]
 	low = list[0]
 
+	# Look for the min and max
 	for i in 1...list.size
 		high = list[i] if list[i] > high
 		low = list[i] if list[i] < low
 	end
 
+	# Create the bucket
 	buckets = Array.new(high - low + 1){[]}
 
 	p buckets.size
